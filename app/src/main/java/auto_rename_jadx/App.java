@@ -7,18 +7,23 @@ import jadx.api.JadxArgs;
 import jadx.api.JadxDecompiler;
 import jadx.api.JavaClass;
 import jadx.api.JavaMethod;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 public class App {
     public static void main(String[] args) {
         JadxArgs jadxArgs = new JadxArgs();
-        if (args.length == 0){System.out.println("No apk path supplied");return;}
-        jadxArgs.setInputFile(new File(args[0]));
+        //String path = (args.length != 0) ?: args[0] : "youtube.apk";
+        jadxArgs.setInputFile(new File("youtube.apk"));
+        Pattern className=Pattern.compile("return \"(.+)\\{");
         //jadxArgs.setOutDir(new File("output"));
         try (JadxDecompiler jadx = new JadxDecompiler(jadxArgs)) {
             jadx.load();
             for (JavaClass cls : jadx.getClasses()) {
                     for (JavaMethod method: cls.getMethods()){
                         if (method.getName().equals("toString")){
-                            System.out.println(cls.getClassNode().getCode());
+                            Matcher matcher = className.matcher(cls.getClassNode().getCode().toString());
+                            if (matcher.find())    
+                                {System.out.println(cls.getName()+" "+matcher.group(1));}
                     }
 			}
         }

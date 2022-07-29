@@ -24,16 +24,6 @@ dependencies {
     implementation("io.github.skylot:jadx-dex-input:1.4.3")
 }
 
-testing {
-    suites {
-        // Configure the built-in test suite
-        val test by getting(JvmTestSuite::class) {
-            // Use JUnit Jupiter test framework
-            useJUnitJupiter("5.8.1")
-        }
-    }
-}
-
 application {
     // Define the main class for the application.
     mainClass.set("auto_rename_jadx.App")
