@@ -10,6 +10,7 @@ import jadx.api.JavaMethod;
 public class App {
     public static void main(String[] args) {
         JadxArgs jadxArgs = new JadxArgs();
+        if (args.length == 0){System.out.println("No apk path supplied");return;}
         jadxArgs.setInputFile(new File(args[0]));
         //jadxArgs.setOutDir(new File("output"));
         try (JadxDecompiler jadx = new JadxDecompiler(jadxArgs)) {
