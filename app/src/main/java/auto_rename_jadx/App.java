@@ -19,16 +19,16 @@ public class App {
         try (JadxDecompiler jadx = new JadxDecompiler(jadxArgs)) {
             jadx.load();
             for (JavaClass cls : jadx.getClasses()) {
-                    for (JavaMethod method: cls.getMethods()){
-                        if (method.getName().equals("toString")){
-                            Matcher matcher = className.matcher(cls.getClassNode().getCode().toString());
-                            if (matcher.find())    
-                                {System.out.println(cls.getName()+" "+matcher.group(1));}
+                    if (Character.isLowerCase(cls.getName().charAt(0))){
+                        for (JavaMethod method: cls.getMethods()){
+                            if (method.getName().equals("toString")){
+                                Matcher matcher = className.matcher(cls.getClassNode().getCode().toString());
+                                if (matcher.find()){System.out.println(cls.getName()+" "+matcher.group(1));}
                     }
 			}
         }
     }
-                 
+}                
          catch (Exception e) {
             e.printStackTrace();
         }
