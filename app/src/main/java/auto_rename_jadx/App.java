@@ -9,28 +9,26 @@ import jadx.api.JavaClass;
 import jadx.api.JavaMethod;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.List;
 public class App {
+    static Pattern className=Pattern.compile("return \"(\\w+)\\{");
+    public static void properName(JavaClass cls){
+    Matcher matcher = className.matcher(cls.getClassNode().getCode().toString());
+    if (matcher.find()){
+        System.out.println(cls.getName() +" "+matcher.group(1));
+        }
+    }
     public static void main(String[] args) {
         JadxArgs jadxArgs = new JadxArgs();
         String path = (args.length != 0) ? args[0] : "youtube.apk";
         jadxArgs.setInputFile(new File(path));
-        Pattern className=Pattern.compile("return \"(\\w+)\\{");
-        //jadxArgs.setOutDir(new File("output"));
+                //jadxArgs.setOutDir(new File("output"));
         try (JadxDecompiler jadx = new JadxDecompiler(jadxArgs)) {
             jadx.load();
-            for (JavaClass cls : jadx.getClasses()) {
-                    if (Character.isLowerCase(cls.getName().charAt(0))){
-                        for (JavaMethod method: cls.getMethods()){
-                            if (method.getName().equals("toString")){
-                                Matcher matcher = className.matcher(cls.getClassNode().getCode().toString());
-                                if (matcher.find()){
-                                    System.out.println(cls.getName()+" "+matcher.group(1));
-                            }
-			    }
-            }
+            jadx.getClasses().stream().filter(cls -> Character.isLowerCase(cls.getName().charAt(0)))
+                .filter(cls -> cls.getMethods().stream().anyMatch(mth -> mth.getName().equals("toString")))
+                .forEach(cls -> properName(cls));
         }
-    }
-}                
          catch (Exception e) {
             e.printStackTrace();
         }
