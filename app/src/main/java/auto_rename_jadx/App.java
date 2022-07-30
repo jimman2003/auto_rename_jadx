@@ -12,9 +12,9 @@ import java.util.regex.Matcher;
 public class App {
     public static void main(String[] args) {
         JadxArgs jadxArgs = new JadxArgs();
-        //String path = (args.length != 0) ?: args[0] : "youtube.apk";
-        jadxArgs.setInputFile(new File("youtube.apk"));
-        Pattern className=Pattern.compile("return \"(.+)\\{");
+        String path = (args.length != 0) ? args[0] : "youtube.apk";
+        jadxArgs.setInputFile(new File(path));
+        Pattern className=Pattern.compile("return \"(\\w+)\\{");
         //jadxArgs.setOutDir(new File("output"));
         try (JadxDecompiler jadx = new JadxDecompiler(jadxArgs)) {
             jadx.load();
@@ -23,9 +23,11 @@ public class App {
                         for (JavaMethod method: cls.getMethods()){
                             if (method.getName().equals("toString")){
                                 Matcher matcher = className.matcher(cls.getClassNode().getCode().toString());
-                                if (matcher.find()){System.out.println(cls.getName()+" "+matcher.group(1));}
-                    }
-			}
+                                if (matcher.find()){
+                                    System.out.println(cls.getName()+" "+matcher.group(1));
+                            }
+			    }
+            }
         }
     }
 }                
