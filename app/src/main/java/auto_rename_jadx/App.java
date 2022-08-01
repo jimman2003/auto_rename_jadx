@@ -20,18 +20,13 @@ public class App {
             jadx.load();
             for (JavaClass cls : jadx.getClasses()) {
                     if (Character.isLowerCase(cls.getName().charAt(0))){
-                        for (JavaMethod method: cls.getMethods()){
-                            if (method.getName().equals("toString")){
-                                Matcher matcher = className.matcher(cls.getClassNode().getCode().toString());
-                                if (matcher.find()){
-                                    System.out.println(cls.getName()+" "+matcher.group(1));
-                            }
-			    }
+                           if (cls.searchMethodByShortId("toString()Ljava/lang/String;") != null){
+                           Matcher matcher = className.matcher(cls.getCode());
+                           if (matcher.find()){System.out.println(cls.getName() + " " + matcher.group(1));}
+                    }        			    
+                }
             }
         }
-     cls.unload();
-    }
-}                
          catch (Exception e) {
             e.printStackTrace();
         }
