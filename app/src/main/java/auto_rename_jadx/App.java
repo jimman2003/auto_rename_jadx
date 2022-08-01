@@ -29,6 +29,7 @@ public class App {
 			    }
             }
         }
+     cls.unload();
     }
 }                
          catch (Exception e) {
