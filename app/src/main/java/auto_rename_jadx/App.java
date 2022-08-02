@@ -27,10 +27,11 @@ public class App {
           if (cls.searchMethodByShortId("toString()Ljava/lang/String;") != null) {
             Matcher classNameMatcher = className.matcher(cls.getCode());
             if (classNameMatcher.find()) {
-              if (!cls.getName().equals("jgo")) {
-                String fileContent = "CLASS " + cls.getName() + " " + classNameMatcher.group(1);
+              String classNameInCode=classNameMatcher.group(1);
+              if (!cls.getName().equals(classNameInCode)) {
+                String fileContent = "CLASS " + cls.getName() + " " + classNameInCode;
                 System.out.println(fileContent);
-                Path mapping = mappingsFolder.resolve(classNameMatcher.group(1) + ".mapping");
+                Path mapping = mappingsFolder.resolve(classNameInCode + ".mapping");
                 if (!Files.exists(mapping)) {
                   Files.writeString(mapping, fileContent);
                 }
