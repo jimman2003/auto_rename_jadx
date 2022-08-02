@@ -22,7 +22,7 @@ public class App {
                     if (Character.isLowerCase(cls.getName().charAt(0))){
                            if (cls.searchMethodByShortId("toString()Ljava/lang/String;") != null){
                            Matcher matcher = className.matcher(cls.getCode());
-                           if (matcher.find()){System.out.println(cls.getName() + " " + matcher.group(1));}
+                           if (matcher.find()){System.out.println("CLASS " + cls.getName() + " " + matcher.group(1));}
                     }        			    
                 }
             }
